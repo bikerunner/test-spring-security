@@ -15,23 +15,26 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ProjectConfig
 {
     @Bean
-    UserDetailsService userDetailsService() {
-        var user = User.withUsername("max").password("mops").authorities("read").build();
-        return new InMemoryUserDetailsManager(user);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
-
-    @Bean
     public SecurityFilterChain configure(HttpSecurity http)
             throws Exception {
+        var user = User.withUsername("max")
+                       .password("mops")
+                       .authorities("read")
+                       .build();
+        var userDetailsService = new InMemoryUserDetailsManager(user);
+
         http.httpBasic(Customizer.withDefaults());
         http.authorizeHttpRequests(
-                c -> c.anyRequest().permitAll()
+                c -> c.anyRequest().authenticated()
         );
+        http.userDetailsService(userDetailsService);
+
         return http.build();
+    }
+
+    @Bean()
+    PasswordEncoder passwordEncoder()
+    {
+        return NoOpPasswordEncoder.getInstance();
     }
 }
