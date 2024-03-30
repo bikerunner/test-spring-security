@@ -24,6 +24,7 @@ public class ProjectConfig
 
         http.httpBasic(Customizer.withDefaults());
         http.authorizeHttpRequests(
+//                c -> c.anyRequest().permitAll()
                 c -> c.anyRequest().authenticated()
         );
         http.userDetailsService(userDetailsService);

@@ -3,7 +3,7 @@ package com.bikerunner.springsecuritytest;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@Entity
+@Entity(name = "users")
 public class User
 {
     @Id
@@ -11,6 +11,18 @@ public class User
     private String username;
     private String password;
     private String authority;
+
+    public User()
+    {
+    }
+
+    public User(Long id, String username, String password, String authority)
+    {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.authority = authority;
+    }
 
     public void setId(Long id)
     {
